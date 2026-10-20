@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+
+  <meta charset="UTF-8">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #f3f6f9;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      color: #102a43;
+    }
+
+    .page-title {
+      background: #173f65;
+      color: white;
+      padding: 24px 28px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .page-title h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+    }
+
+    .page-title p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .student-box {
+      background: white;
+      border: 1px solid #cbd8e6;
+      margin-bottom: 24px;
+    }
+
+    .student-title {
+      background: #245b87;
+      color: white;
+      font-weight: 700;
+      padding: 10px 14px;
+      font-size: 16px;
+    }
+
+    .student-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .student-table td {
+      padding: 10px;
+      border: 1px solid #d5dee8;
+    }
+
+    .student-label {
+      background: #eaf2f8;
+      font-weight: 700;
+      width: 18%;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 480px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #102a43;
+    }
+
+    h3 {
+      color: #0868d7;
+      border-bottom: 2px solid #e3edf7;
+      padding-bottom: 10px;
+      margin-top: 26px;
+    }
+
+    .input-item {
+      margin-bottom: 22px;
+    }
+
+    .input-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .input-value {
+      color: #0066dd;
+      font-weight: 700;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #1684e8;
+    }
+
+    .status {
+      text-align: center;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .status.good {
+      background: #e8f7ee;
+      color: #16733d;
+      border: 1px solid #9ed7b5;
+    }
+
+    .status.bad {
+      background: #fff0ee;
+      color: #c42b1c;
+      border: 1px solid #ffb6ae;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .card {
+      border: 1px solid #d6e1ec;
+      border-radius: 12px;
+      background: #f8fbfe;
+      padding: 18px;
+    }
+
+    .card-label {
+      color: #647b91;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .card-value {
+      font-size: 23px;
+      font-weight: 700;
+      color: #073b75;
+    }
+
+    table.analysis {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+    }
+
+    table.analysis th,
+    table.analysis td {
+      border: 1px solid #d2dfeb;
+      padding: 12px;
+    }
+
+    table.analysis th {
+      background: #eaf2f8;
+      text-align: left;
+    }
+
+    table.analysis td:nth-child(2),
+    table.analysis th:nth-child(2) {
+      text-align: right;
+    }
+
+    table.analysis td:nth-child(3),
+    table.analysis th:nth-child(3) {
+      text-align: right;
+    }
+
+    .formula {
+      background: #fff8e7;
+      border: 1px solid #f1c96c;
+      border-radius: 10px;
+      padding: 18px;
+      line-height: 1.7;
+      margin-top: 20px;
+    }
+
+    .save-box {
+      margin-top: 28px;
+      background: #f7f9fb;
+      padding: 18px;
+      border-radius: 12px;
+    }
+
+    .save-box input {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cbd8e6;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .save-box button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #126bd6;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f8fb;
+      border-left: 4px solid #1b73c9;
+      line-height: 1.6;
+      font-size: 13px;
+      color: #536b80;
+    }
+
+    @media (max-width: 1100px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <!-- 제목 -->
+  <div class="page-title">
+    <h1>여의도 개발용 토지 적정성 분석 시스템 - VS Code Test</h1>
+
+    <p>
+      개발규모 · 분양수입 · 공사비 · 금융비용 ·
+      적정 토지가격 실시간 시뮬레이션
+    </p>
+  </div>
+
+
+  <!-- 학생 정보 -->
+  <div class="student-box">
+
+    <div class="student-title">
+      학생 정보
+    </div>
+
+    <table class="student-table">
+
+      <tr>
+        <td class="student-label">학번</td>
+        <td>12503482</td>
+
+        <td class="student-label">이름</td>
+        <td>정미정</td>
+      </tr>
+
+      <tr>
+        <td class="student-label">프로젝트명</td>
+        <td>여의도동 48-1·48-5 통합개발 사업성 분석</td>
+
+        <td class="student-label">사업유형</td>
+        <td>업무시설</td>
+      </tr>
+
+    </table>
+
+  </div>
+
+
+  <div class="container">
+
+    <!-- =========================
+         왼쪽 입력조건
+    ========================== -->
+    <div class="panel">
+
+      <h2>입력 조건 설정</h2>
+
+
+      <h3>토지 및 기본 규모</h3>
+
+
+      <!-- 대지면적 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>대지면적</span>
+
+          <span class="input-value">
+            <span id="landAreaValue"></span> 평
+          </span>
+        </div>
+
+        <input
+          id="landArea"
+          type="range"
+          min="200"
+          max="800"
+          step="1"
+          value="366"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 검토 토지가격 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>검토 토지가격</span>
+
+          <span class="input-value">
+            <span id="landPriceValue"></span> 억원
+          </span>
+        </div>
+
+        <input
+          id="landPrice"
+          type="range"
+          min="100"
+          max="1500"
+          step="1"
+          value="732"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 건폐율 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>건폐율</span>
+
+          <span class="input-value">
+            <span id="bcrValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="bcr"
+          type="range"
+          min="30"
+          max="80"
+          step="0.01"
+          value="59.87"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 용적률 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>용적률</span>
+
+          <span class="input-value">
+            <span id="farValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="far"
+          type="range"
+          min="300"
+          max="1500"
+          step="0.01"
+          value="974.19"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 용적률 제외면적 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>용적률 제외면적 비율</span>
+
+          <span class="input-value">
+            <span id="nonFarAreaRatioValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="nonFarAreaRatio"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="50"
+          oninput="calculate()">
+
+      </div>
+
+
+      <h3>분양 및 공사비 변수</h3>
+
+
+      <!-- 분양면적 비율 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>분양면적 비율</span>
+
+          <span class="input-value">
+            <span id="saleAreaRatioValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="saleAreaRatio"
+          type="range"
+          min="50"
+          max="100"
+          step="5"
+          value="80"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 평당 분양단가 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>평당 분양단가</span>
+
+          <span class="input-value">
+            <span id="saleUnitPriceValue"></span> 만원
+          </span>
+        </div>
+
+        <input
+          id="saleUnitPrice"
+          type="range"
+          min="1000"
+          max="20000"
+          step="100"
+          value="8000"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 평당 공사비 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>평당 공사비</span>
+
+          <span class="input-value">
+            <span id="constructionUnitCostValue"></span> 만원
+          </span>
+        </div>
+
+        <input
+          id="constructionUnitCost"
+          type="range"
+          min="300"
+          max="2000"
+          step="50"
+          value="1000"
+          oninput="calculate()">
+
+      </div>
+
+
+      <h3>사업비 및 금융조건</h3>
+
+
+      <!-- 기타사업비율 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>기타사업비율</span>
+
+          <span class="input-value">
+            <span id="otherCostRatioValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="otherCostRatio"
+          type="range"
+          min="0"
+          max="40"
+          step="1"
+          value="15"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 차입비율 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>차입비율</span>
+
+          <span class="input-value">
+            <span id="loanRatioValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="loanRatio"
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          value="70"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 금리 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>연 이자율</span>
+
+          <span class="input-value">
+            <span id="interestRateValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="interestRate"
+          type="range"
+          min="0"
+          max="15"
+          step="0.1"
+          value="6"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 사업기간 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>총 사업기간</span>
+
+          <span class="input-value">
+            <span id="projectMonthsValue"></span> 개월
+          </span>
+        </div>
+
+        <input
+          id="projectMonths"
+          type="range"
+          min="12"
+          max="72"
+          step="6"
+          value="36"
+          oninput="calculate()">
+
+      </div>
+
+
+      <h3>목표이익 및 토지취득조건</h3>
+
+
+      <!-- 목표이익률 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>목표이익률 (분양수입 대비)</span>
+
+          <span class="input-value">
+            <span id="targetProfitRatioValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="targetProfitRatio"
+          type="range"
+          min="0"
+          max="40"
+          step="1"
+          value="15"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 토지취득 부대비율 -->
+      <div class="input-item">
+
+        <div class="input-header">
+          <span>토지취득 부대비율</span>
+
+          <span class="input-value">
+            <span id="landAcquisitionRatioValue"></span> %
+          </span>
+        </div>
+
+        <input
+          id="landAcquisitionRatio"
+          type="range"
+          min="0"
+          max="15"
+          step="0.5"
+          value="5"
+          oninput="calculate()">
+
+      </div>
+
+
+      <!-- 시나리오 저장 -->
+      <div class="save-box">
+
+        <strong>시나리오 저장</strong>
+
+        <input
+          id="scenarioName"
+          type="text"
+          value="여의도 기본 시나리오">
+
+        <button onclick="saveScenario()">
+          시나리오 저장
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         오른쪽 분석결과
+    ========================== -->
+    <div class="panel">
+
+      <h2>실시간 분석 리포트</h2>
+
+
+      <!-- 판정 -->
+      <div id="statusBox" class="status bad">
+        계산 중...
+      </div>
+
+
+      <!-- 주요 결과 -->
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-label">
+            개발이익
+          </div>
+
+          <div
+            id="developmentProfitCard"
+            class="card-value">
+            -
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="card-label">
+            개발이익률
+          </div>
+
+          <div
+            id="developmentProfitRateCard"
+            class="card-value">
+            -
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="card-label">
+            적정 토지가격
+          </div>
+
+          <div
+            id="appropriateLandPriceCard"
+            class="card-value">
+            -
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="card-label">
+            토지 매입 여유액
+          </div>
+
+          <div
+            id="landPriceGapCard"
+            class="card-value">
+            -
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- 개발규모 -->
+      <h3>1. 개발 규모 분석</h3>
+
+      <table class="analysis">
+
+        <tr>
+          <th>항목</th>
+          <th>면적</th>
+          <th>산출 기준</th>
+        </tr>
+
+        <tr>
+          <td>대지면적</td>
+          <td id="landAreaResult"></td>
+          <td>입력값</td>
+        </tr>
+
+        <tr>
+          <td>건축면적</td>
+          <td id="buildingArea"></td>
+          <td>대지면적 × 건폐율</td>
+        </tr>
+
+        <tr>
+          <td>용적률 산정 연면적</td>
+          <td id="farArea"></td>
+          <td>대지면적 × 용적률</td>
+        </tr>
+
+        <tr>
+          <td>용적률 제외면적</td>
+          <td id="nonFarArea"></td>
+          <td>
+            용적률 산정 연면적 × 용적률 제외면적 비율
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>공사비 산정 총 연면적</strong></td>
+          <td id="constructionArea"></td>
+          <td>용적률 산정 연면적 + 용적률 제외면적</td>
+        </tr>
+
+        <tr>
+          <td>분양면적</td>
+          <td id="saleArea"></td>
+          <td>용적률 산정 연면적 × 분양면적 비율</td>
+        </tr>
+
+      </table>
+
+
+      <!-- 수지분석 -->
+      <h3>2. 수지 분석</h3>
+
+      <table class="analysis">
+
+        <tr>
+          <th>항목</th>
+          <th>금액</th>
+          <th>산출 기준</th>
+        </tr>
+
+        <tr>
+          <td>총 분양수입</td>
+          <td id="salesRevenue"></td>
+          <td>분양면적 × 평당 분양단가</td>
+        </tr>
+
+        <tr>
+          <td>직접공사비</td>
+          <td id="directConstructionCost"></td>
+          <td>공사비 산정 총 연면적 × 평당 공사비</td>
+        </tr>
+
+        <tr>
+          <td>기타사업비</td>
+          <td id="otherCost"></td>
+          <td>직접공사비 × 기타사업비율</td>
+        </tr>
+
+        <tr>
+          <td>건설금융비용</td>
+          <td id="constructionFinanceCost"></td>
+          <td>
+            (직접공사비 + 기타사업비) ×
+            50% × 차입비율 × 이자율 × 사업기간
+          </td>
+        </tr>
+
+        <tr>
+          <td>토지취득 부대비</td>
+          <td id="landAcquisitionCost"></td>
+          <td>검토 토지가격 × 토지취득 부대비율</td>
+        </tr>
+
+        <tr>
+          <td>토지 금융비용</td>
+          <td id="landFinanceCost"></td>
+          <td>
+            검토 토지가격 × 차입비율 ×
+            이자율 × 사업기간
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>총 사업비</strong></td>
+          <td id="totalProjectCost"></td>
+          <td>토지비 포함 전체 개발 사업비</td>
+        </tr>
+
+        <tr>
+          <td><strong>개발이익</strong></td>
+          <td id="developmentProfit"></td>
+          <td>총 분양수입 - 총 사업비</td>
+        </tr>
+
+      </table>
+
+
+      <!-- 적정토지가격 -->
+      <h3>3. 적정 토지가격 분석</h3>
+
+      <table class="analysis">
+
+        <tr>
+          <th>항목</th>
+          <th>금액</th>
+          <th>설명</th>
+        </tr>
+
+        <tr>
+          <td>목표이익</td>
+          <td id="targetProfit"></td>
+          <td>총 분양수입 × 목표 사업이익률</td>
+        </tr>
+
+        <tr>
+          <td>검토 토지가격</td>
+          <td id="currentLandPrice"></td>
+          <td>과거 거래가격 참고 입력값</td>
+        </tr>
+
+        <tr>
+          <td><strong>적정 토지가격</strong></td>
+          <td id="appropriateLandPrice"></td>
+          <td>목표이익 확보 후 지급 가능한 최대 토지가격</td>
+        </tr>
+
+        <tr>
+          <td>토지 매입 여유액</td>
+          <td id="landPriceGap"></td>
+          <td>적정 토지가격 - 검토 토지가격</td>
+        </tr>
+
+      </table>
+
+
+      <!-- 계산식 -->
+      <div class="formula">
+
+        <strong>적정 토지가격 계산식</strong>
+
+        <br><br>
+
+        [분양수입 - 목표이익 - 직접공사비 -
+        기타사업비 - 건설금융비용]
+
+        <br>
+
+        ÷
+
+        <br>
+
+        [1 + 토지취득부대비율 +
+        차입비율 × 이자율 × 사업기간]
+
+      </div>
+
+
+      <!-- 주의사항 -->
+      <div class="note">
+
+        본 분석은 개발용 토지 매입 검토를 위한
+        개략 사업성 시뮬레이션입니다.
+
+        <br>
+
+        평당 분양단가 8000만원,
+        공사비, 금융조건 등은 사업성 검토를 위한
+        가정값이며 실제 사업 추진 시 별도 검증이 필요합니다.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+  /*
+   * 입력값 가져오기
+   */
+  function getInputData() {
+
+    return {
+
+      landArea:
+        Number(document.getElementById('landArea').value),
+
+      landPrice:
+        Number(document.getElementById('landPrice').value),
+
+      bcr:
+        Number(document.getElementById('bcr').value),
+
+      far:
+        Number(document.getElementById('far').value),
+
+      nonFarAreaRatio:
+        Number(document.getElementById('nonFarAreaRatio').value),
+
+      saleAreaRatio:
+        Number(document.getElementById('saleAreaRatio').value),
+
+      saleUnitPrice:
+        Number(document.getElementById('saleUnitPrice').value),
+
+      constructionUnitCost:
+        Number(document.getElementById('constructionUnitCost').value),
+
+      otherCostRatio:
+        Number(document.getElementById('otherCostRatio').value),
+
+      loanRatio:
+        Number(document.getElementById('loanRatio').value),
+
+      interestRate:
+        Number(document.getElementById('interestRate').value),
+
+      projectMonths:
+        Number(document.getElementById('projectMonths').value),
+
+      targetProfitRatio:
+        Number(document.getElementById('targetProfitRatio').value),
+
+      landAcquisitionRatio:
+        Number(document.getElementById('landAcquisitionRatio').value)
+
+    };
+
+  }
+
+
+  /*
+   * 숫자 표시
+   */
+  function numberFormat(value, digits = 1) {
+
+    return Number(value).toLocaleString(
+      'ko-KR',
+      {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      }
+    );
+
+  }
+
+
+  /*
+   * 화면 계산
+   */
+  function calculate() {
+
+    const input = getInputData();
+
+
+    // 입력값 표시
+    document.getElementById('landAreaValue').innerText =
+      numberFormat(input.landArea, 0);
+
+    document.getElementById('landPriceValue').innerText =
+      numberFormat(input.landPrice, 0);
+
+    document.getElementById('bcrValue').innerText =
+      numberFormat(input.bcr, 2);
+
+    document.getElementById('farValue').innerText =
+      numberFormat(input.far, 2);
+
+    document.getElementById('nonFarAreaRatioValue').innerText =
+      numberFormat(input.nonFarAreaRatio, 0);
+
+    document.getElementById('saleAreaRatioValue').innerText =
+      numberFormat(input.saleAreaRatio, 0);
+
+    document.getElementById('saleUnitPriceValue').innerText =
+      numberFormat(input.saleUnitPrice, 0);
+
+    document.getElementById('constructionUnitCostValue').innerText =
+      numberFormat(input.constructionUnitCost, 0);
+
+    document.getElementById('otherCostRatioValue').innerText =
+      numberFormat(input.otherCostRatio, 0);
+
+    document.getElementById('loanRatioValue').innerText =
+      numberFormat(input.loanRatio, 0);
+
+    document.getElementById('interestRateValue').innerText =
+      numberFormat(input.interestRate, 1);
+
+    document.getElementById('projectMonthsValue').innerText =
+      numberFormat(input.projectMonths, 0);
+
+    document.getElementById('targetProfitRatioValue').innerText =
+      numberFormat(input.targetProfitRatio, 0);
+
+    document.getElementById('landAcquisitionRatioValue').innerText =
+      numberFormat(input.landAcquisitionRatio, 1);
+
+
+    /*
+     * 서버의 Code.gs 계산함수 호출
+     */
+    google.script.run
+
+      .withSuccessHandler(function(result) {
+
+        showResult(input, result);
+
+      })
+
+      .withFailureHandler(function(error) {
+
+        alert(
+          '계산 중 오류가 발생했습니다.\n\n' +
+          error.message
+        );
+
+      })
+
+      .calculateProject(input);
+
+  }
+
+
+  /*
+   * 계산 결과 표시
+   */
+  function showResult(input, result) {
+
+    // 개발규모
+    document.getElementById('landAreaResult').innerText =
+      numberFormat(input.landArea, 0) + ' 평';
+
+    document.getElementById('buildingArea').innerText =
+      numberFormat(result.buildingArea, 1) + ' 평';
+
+    document.getElementById('farArea').innerText =
+      numberFormat(result.farArea, 1) + ' 평';
+
+    document.getElementById('nonFarArea').innerText =
+      numberFormat(result.nonFarArea, 1) + ' 평';
+
+    document.getElementById('constructionArea').innerText =
+      numberFormat(result.constructionArea, 1) + ' 평';
+
+    document.getElementById('saleArea').innerText =
+      numberFormat(result.saleArea, 1) + ' 평';
+
+
+    // 수지분석
+    document.getElementById('salesRevenue').innerText =
+      numberFormat(result.salesRevenue, 1) + ' 억원';
+
+    document.getElementById('directConstructionCost').innerText =
+      numberFormat(result.directConstructionCost, 1) + ' 억원';
+
+    document.getElementById('otherCost').innerText =
+      numberFormat(result.otherCost, 1) + ' 억원';
+
+    document.getElementById('constructionFinanceCost').innerText =
+      numberFormat(result.constructionFinanceCost, 1) + ' 억원';
+
+    document.getElementById('landAcquisitionCost').innerText =
+      numberFormat(result.landAcquisitionCost, 1) + ' 억원';
+
+    document.getElementById('landFinanceCost').innerText =
+      numberFormat(result.landFinanceCost, 1) + ' 억원';
+
+    document.getElementById('totalProjectCost').innerText =
+      numberFormat(result.totalProjectCost, 1) + ' 억원';
+
+    document.getElementById('developmentProfit').innerText =
+      numberFormat(result.developmentProfit, 1) +
+      ' 억원 (' +
+      numberFormat(result.developmentProfitRate, 1) +
+      '%)';
+
+
+    // 적정 토지가격
+    document.getElementById('targetProfit').innerText =
+      numberFormat(result.targetProfit, 1) + ' 억원';
+
+    document.getElementById('currentLandPrice').innerText =
+      numberFormat(input.landPrice, 1) + ' 억원';
+
+    document.getElementById('appropriateLandPrice').innerText =
+      numberFormat(result.appropriateLandPrice, 1) + ' 억원';
+
+    document.getElementById('landPriceGap').innerText =
+      numberFormat(result.landPriceGap, 1) + ' 억원';
+
+
+    // 상단 카드
+    document.getElementById('developmentProfitCard').innerText =
+      numberFormat(result.developmentProfit, 1) + ' 억';
+
+    document.getElementById('developmentProfitRateCard').innerText =
+      numberFormat(result.developmentProfitRate, 1) + '%';
+
+    document.getElementById('appropriateLandPriceCard').innerText =
+      numberFormat(result.appropriateLandPrice, 1) + ' 억';
+
+    document.getElementById('landPriceGapCard').innerText =
+      numberFormat(result.landPriceGap, 1) + ' 억';
+
+
+    // 사업성 판정
+    const statusBox =
+      document.getElementById('statusBox');
+
+    statusBox.innerText =
+      result.status;
+
+    if (result.appropriateLandPrice >= input.landPrice) {
+
+      statusBox.className =
+        'status good';
+
+    } else {
+
+      statusBox.className =
+        'status bad';
+
+    }
+
+  }
+
+
+  /*
+   * 시나리오 저장
+   */
+  function saveScenario() {
+
+    const input =
+      getInputData();
+
+    input.scenarioName =
+      document.getElementById('scenarioName').value;
+
+
+    google.script.run
+
+      .withSuccessHandler(function(message) {
+
+        alert(message);
+
+      })
+
+      .withFailureHandler(function(error) {
+
+        alert(
+          '저장 중 오류가 발생했습니다.\n\n' +
+          error.message
+        );
+
+      })
+
+      .saveScenario(input);
+
+  }
+
+
+  /*
+   * 최초 화면 계산
+   */
+  window.onload = function() {
+
+    calculate();
+
+  };
+
+</script>
+
+
+</body>
+</html>
